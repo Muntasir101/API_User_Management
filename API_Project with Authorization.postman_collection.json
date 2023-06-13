@@ -1,0 +1,63 @@
+{
+	"info": {
+		"_postman_id": "2db31630-3767-4cdb-b205-32b624465413",
+		"name": "API_Project with Authorization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"user 2\",\r\n    \"email\": \"u2@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5000/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:5000/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users/id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"new@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5000/api/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users/id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:5000/api/users/3"
+			},
+			"response": []
+		}
+	]
+}

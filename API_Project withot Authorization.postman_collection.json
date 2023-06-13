@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "51702bce-adf5-4fc1-865e-acb347abba91",
+		"name": "API_Project withot Authorization",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/users",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "secret_token",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"user 1\",\r\n    \"email\": \"u1@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5000/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "secret_token",
+						"type": "default"
+					}
+				],
+				"url": "http://127.0.0.1:5000/api/users"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users/id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "secret_token",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"new@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:5000/api/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "api/users/id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "secret_token",
+						"type": "default"
+					}
+				],
+				"url": "http://127.0.0.1:5000/api/users/1"
+			},
+			"response": []
+		}
+	]
+}
