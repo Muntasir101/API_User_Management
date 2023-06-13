@@ -12,6 +12,7 @@ api_tokens = {
     'another_token': 'user'
 }
 
+
 # Endpoint for creating a new user
 @app.route('/api/users', methods=['POST'])
 def create_user():
@@ -48,6 +49,7 @@ def create_user():
 
     return jsonify({'message': 'User created successfully'}), 201
 
+
 @app.route('/api/users', methods=['GET'])
 def get_users():
     # Check if the API token is provided in the request headers
@@ -69,6 +71,7 @@ def get_users():
             users = response.json().get('users', [])
 
     return jsonify({'users': users})
+
 
 @app.route('/api/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
@@ -92,6 +95,7 @@ def update_user(user_id):
             return jsonify({'message': 'User updated successfully', 'user': user})
 
     return jsonify({'error': 'User not found'}), 404
+
 
 @app.route('/api/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):

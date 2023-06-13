@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>User Management</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    form {
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Management</h1>
+
+  <form id="createForm">
+    <input type="text" id="nameInput" placeholder="Name" required>
+    <input type="email" id="emailInput" placeholder="Email" required>
+    <button type="submit">Create User</button>
+  </form>
+
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="userTableBody">
+      <!-- User rows will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <script>
+    const createForm = document.getElementById('createForm');
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const userTableBody = document.getElementById('userTableBody');
+
+    // Function to add a new user row to the table
+    function addUserToUI(user) {
+      const row = document.createElement('tr');
+      const name = user.name ? user.name : 'N/A';
+      const email = user.email ? user.email : 'N/A';
+
+      row.innerHTML = `
+        <td>${user.id}</td>
+        <td>${name}</td>
+        <td>${email}</td>
+      `;
+      userTableBody.appendChild(row);
+}
+
+
+    // Event listener for the create form submission
+    createForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value;
+      const email = emailInput.value;
+
+      // Perform API request to create a new user
+      fetch('http://127.0.0.1:5000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email })
+      })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Error creating user');
+          }
+        })
+        .then(data => {
+          // Clear input fields
+          nameInput.value = '';
+          emailInput.value = '';
+
+          // Display success message
+          alert('User created successfully');
+
+          // Add the new user to the UI
+          if (data && data.user) {
+            addUserToUI(data.user);
+          } else {
+            throw new Error('Invalid response from the server');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert(error.message);
+        });
+    });
+  </script>
+</body>
+</html>

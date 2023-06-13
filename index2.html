@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      margin: 20px auto;
+      max-width: 400px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #user-list {
+      max-width: 400px;
+      margin: 20px auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Management</h1>
+
+  <form id="createForm">
+    <h2>Create User</h2>
+    <input type="text" id="nameInput" placeholder="Name" required>
+    <input type="email" id="emailInput" placeholder="Email" required>
+    <button type="submit">Create User</button>
+  </form>
+
+  <div id="user-list">
+    <h2>User List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="user-table-body"></tbody>
+    </table>
+  </div>
+
+<script>
+    // Create a new user
+createForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const name = nameInput.value;
+  const email = emailInput.value;
+
+
+  fetch('http://127.0.0.1:5000/api/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name, email})
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Error creating user');
+      }
+    })
+    .then(data => {
+      console.log(data); // Check the response data received from the server
+
+      // Clear input fields
+      nameInput.value = '';
+      emailInput.value = '';
+
+
+      // Display success message
+      alert('User created successfully');
+
+      // Add the new user to the UI
+      if (data && data.user && data.user.name) {
+        addUserToUI(data.user);
+      } else {
+        throw new Error('Invalid response from the server');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert(error.message);
+    });
+});
+
+// Add a user to the UI
+function addUserToUI(user) {
+  const row = document.createElement('tr');
+  const name = user.name ? user.name : 'N/A';
+  const email = user.email ? user.email : 'N/A';
+
+  row.innerHTML = `
+    <td>${user.id}</td>
+    <td>${name}</td>
+    <td>${email}</td>
+  `;
+  userTableBody.appendChild(row);
+}
+
+
+</script>
+</body>
+</html>
